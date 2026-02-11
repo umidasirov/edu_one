@@ -116,59 +116,18 @@ const BalanceTopUp = ({ user }) => {
     }
     setShaxloading(true);
 
+    const tokenn = localStorage.getItem("accessToken");
     try {
-      const userId = user.id;
-      const orderRes = await fetch(`${api}/get_order_id/`, {
+      const orderRes = await fetch(`${api}/api/payment/payme/link/`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user_id: userId }),
+        headers: {
+          Authorization: `Bearer ${tokenn}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: amount }),
       });
       const orderData = await orderRes.json();
-      const orderId = orderData.order_id;
-
-
-      const paymentAPI =
-        paymentMethod === "payme"
-          ? `${api}/order/create/`
-          : "https://edu-api.adxamov.uz/pyclick/process/click/transaction/create/";
-
-      const requestBody =
-        paymentMethod === "payme"
-          ? {
-            customer_name: user.name,
-            address: regions[0]?.name_uz || "qwe",
-            total_cost: parseInt(amount),
-            payment_method: paymentMethod,
-            customer: userId,
-            order_id: orderId,
-          }
-          : {
-            click_trans_id: 1,
-            service_id: 1,
-            merchant_trans_id: 1,
-            merchant_prepare_id: 1,
-            amount: parseInt(amount),
-            action: 1,
-            error: 1,
-            error_note: 1,
-            sign_time: 1,
-            sign_string: 1,
-            click_pydoc_id: 1,
-            user: userId,
-          };
-
-      const orderCreateRes = await fetch(paymentAPI, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(requestBody),
-      });
-
-      const orderCreateData = await orderCreateRes.json();
-      if (orderCreateData.payment_link) {
-        window.location.href = orderCreateData.payment_link;
-      } else {
-        setError(t.linkError);
-      }
+      window.location.href = `${orderData.payment_url}`
     } catch (error) {
       setError(t.generalError);
       console.error("Payment error:", error, "asd");

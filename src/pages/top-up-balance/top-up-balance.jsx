@@ -129,7 +129,6 @@ const BalanceTopUp = () => {
     setShaxloading(true);
     const tokenn = localStorage.getItem("accessToken");
     try {
-      const userId = profileData.id;
       const orderRes = await fetch(`${api}/api/payment/payme/link/`, {
         method: "POST",
             headers: {
