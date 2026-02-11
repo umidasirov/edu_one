@@ -1,0 +1,214 @@
+/* top-up-balance.scss */
+
+.top-up-btn {
+  background: linear-gradient(135deg, #179f5d, #1fc16d);
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  padding: 10px 25px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: 0.3s;
+
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.modal-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+
+  &.active {
+    display: flex;
+  }
+
+  .modal-content {
+    background: #fff;
+    border-radius: 20px;
+    padding: 25px 30px;
+    width: 400px;
+    max-width: 90%;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    animation: slideDown 0.4s ease;
+
+    @keyframes slideDown {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: none;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: #555;
+      transition: 0.2s;
+      &:hover { color: #179f5d; transform: scale(1.2); }
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: rgba(0, 0, 0, 0.6980392157);
+      span {
+        font-weight: 700;
+        color: #179f5d;
+      }
+    }
+
+    .payment-method {
+      display: flex;
+      justify-content: start;
+      margin-bottom: 20px;
+
+      button {
+        width: 110px;
+        height: 80px;
+        border-radius: 10px;
+        border: 2px solid transparent;
+        background-size: cover;
+        background-position: center;
+        margin-right: 10px;
+        cursor: pointer;
+        transition: 0.3s;
+
+        &.active {
+          border-color: #179f5d;
+          transform: scale(1.05);
+        }
+      }
+    }
+
+    .top-up-modal {
+      #inp-w-s {
+        position: relative;
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+
+        input {
+          width: 100%;
+          padding: 10px 40px 10px 15px;
+          border-radius: 10px;
+          border: 1px solid #ddd;
+          font-size: 16px;
+          outline: none;
+          transition: 0.3s;
+
+          &:focus {
+            border-color: #179f5d;
+            box-shadow: 0 0 8px rgba(23,159,93,0.3);
+          }
+        }
+
+        span {
+          position: absolute;
+          right: 15px;
+          font-weight: 600;
+          color: #555;
+        }
+
+        .input-icon {
+          position: absolute;
+          right: 35px;
+          color: #179f5d;
+        }
+      }
+
+      .quick-amounts {
+        margin-bottom: 20px;
+
+        p {
+          font-weight: 500;
+          margin-bottom: 10px;
+        }
+
+        .amount-buttons {
+          display: flex;
+          gap: 10px;
+
+          button {
+            flex: 1;
+            padding: 8px 0;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: linear-gradient(135deg, #1fc16d, #179f5d);
+            color: #fff;
+            font-weight: 600;
+            transition: 0.3s;
+
+            &:hover {
+              transform: scale(1.05);
+            }
+
+            &.active {
+              background: linear-gradient(135deg, #179f5d, #1fc16d);
+              box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            }
+          }
+        }
+      }
+
+      .error-msg {
+        font-size: 14px;
+        color: #ff4d4f;
+        margin-bottom: 15px;
+      }
+
+      .modal-btn {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        button {
+          flex: 1;
+          padding: 10px 0;
+          border-radius: 25px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: 0.3s;
+          gap: 2px;
+
+          &:first-child {
+            background: #f0f0f0;
+            color: #555;
+            margin-right: 10px;
+
+            &:hover {
+              background: #e0e0e0;
+            }
+          }
+
+          &:last-child {
+            background: linear-gradient(135deg, #179f5d, #1fc16d);
+            color: #fff;
+
+            &:hover {
+              transform: scale(1.05);
+              box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            }
+          }
+        }
+      }
+    }
+  }
+}
