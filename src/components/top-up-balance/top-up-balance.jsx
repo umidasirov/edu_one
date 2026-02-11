@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./top-up-balance.scss";
-import click from "./click.jpg";
 import payme from "./payme.jpg";
 import { api } from "../../App";
 
@@ -9,7 +8,6 @@ const BalanceTopUp = ({ user }) => {
   const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("payme");
   const [error, setError] = useState(null);
-  const [regions, setRegions] = useState();
   const [shaxLoading, setShaxloading] = useState(false);
   const language = localStorage.getItem("language") || "uz";
 
@@ -70,9 +68,6 @@ const BalanceTopUp = ({ user }) => {
     return language === "ru" || language === "kaa" ? "ru" : "";
   };
 
-  const regionsURL =
-    "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
-
   const formatAmount = (value) => {
     return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
@@ -80,31 +75,6 @@ const BalanceTopUp = ({ user }) => {
   const handleChange = (e) => {
     setAmount(e.target.value.replace(/\D/g, ""));
   };
-
-  useEffect(() => {
-    const fetchRegions = async () => {
-      setShaxloading(true);
-
-      try {
-        const response = await fetch(regionsURL);
-        if (response.ok) {
-          const data = await response.json();
-          const fdata = data.filter(
-            (e) => Number(e.id) === Number(user.province)
-          );
-          setRegions(fdata);
-        } else {
-          console.error("Error fetching regions data");
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setShaxloading(false);
-      }
-    };
-
-    fetchRegions();
-  }, [user.province]);
 
   const handlePayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {

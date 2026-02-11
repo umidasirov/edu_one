@@ -1,23 +1,14 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./top-up-balance.scss";
-import click from "./click.jpg";
 import payme from "./payme.jpg";
 import { api } from "../../App";
-import { AccessContext } from "../../AccessContext";
-import { useNavigate } from "react-router-dom";
 const BalanceTopUp = () => {
-  const [isOpen, setIsOpen] = useState(true);
   const [amount, setAmount] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("payme");
   const [error, setError] = useState(null);
-  const [regions, setRegions] = useState();
   const [shaxLoading, setShaxloading] = useState(false);
-  const [navURL,setNavUrl] = useState('')
-  const { profileData } = useContext(AccessContext);
 
   const language = localStorage.getItem("language") || "uz";
-  const navigate = useNavigate()
-  // Tezkor summalar ro'yxati
   const quickAmounts = [5000, 10000, 15000];
 
   const translations = {
@@ -76,8 +67,6 @@ const BalanceTopUp = () => {
 
   const t = translations[language] || translations["uz"];
 
-  const regionsURL =
-    "https://raw.githubusercontent.com/MIMAXUZ/uzbekistan-regions-data/master/JSON/regions.json";
 
   const formatAmount = (value) => {
     return value.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
@@ -92,31 +81,6 @@ const BalanceTopUp = () => {
     setAmount(quickAmount.toString());
     setError(null); // Xatoliklarni tozalash
   };
-
-  useEffect(() => {
-    const fetchRegions = async () => {
-      setShaxloading(true);
-
-      try {
-        const response = await fetch(regionsURL);
-        if (response.ok) {
-          const data = await response.json();
-          const fdata = data.filter(
-            (e) => Number(e.id) === Number(profileData.province)
-          );
-          setRegions(fdata);
-        } else {
-          console.error(t.regionsError);
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      } finally {
-        setShaxloading(false);
-      }
-    };
-
-    fetchRegions();
-  }, [profileData.province, t.regionsError]);
 
   const handlePayment = async () => {
     if (!amount || isNaN(amount) || amount <= 0) {
